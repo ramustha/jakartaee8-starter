@@ -67,13 +67,13 @@ public class GreetingResourceTest {
 
     @Test
     public void should_create_greeting() throws MalformedURLException {
-        final WebTarget greetingTarget = client.target(URI.create(new URL(base, "api/greeting/JatartaEE").toExternalForm()));
+        final WebTarget greetingTarget = client.target(URI.create(new URL(base, "api/greeting/JakartaEE").toExternalForm()));
         try (final Response greetingGetResponse = greetingTarget.request()
                 .accept(MediaType.APPLICATION_JSON)
                 .get()) {
             assertTrue("status is ok" , greetingGetResponse.getStatus()== 200);
-            assertTrue("message should start with \"Say Hello to JatartaEE at \"",
-                    greetingGetResponse.readEntity(GreetingMessage.class).getMessage().startsWith("Say Hello to JatartaEE"));
+            assertTrue("message should start with \"Say Hello to JakartaEE at \"",
+                    greetingGetResponse.readEntity(GreetingMessage.class).getMessage().startsWith("Say Hello to JakartaEE"));
 
         }
     }
