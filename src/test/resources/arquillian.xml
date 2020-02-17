@@ -7,6 +7,26 @@
         <property name="deploymentExportPath">target/</property>
     </engine>
 
+    <container qualifier="wildfly" default="true">
+        <configuration>
+            <property name="jbossHome">target/wildfly-19.0.0.Beta2</property>
+            <property name="modulePath">target/wildfly-19.0.0.Beta2/modules/system/layers/base</property>
+            <property name="javaVmArguments">-Xmx512m -XX:MaxPermSize=128m -Xverify:none -XX:+UseFastAccessorMethods</property>
+            <property name="outputToConsole">true</property>
+        </configuration>
+    </container>
+
+    <extension qualifier="persistence">
+        <property name="defaultDataSource">java:jboss/datasources/ExampleDS</property>
+        <property name="scriptsToExecuteBeforeTest">SET REFERENTIAL_INTEGRITY FALSE;</property>
+<!--        <property name="userTransactionJndi">java:jboss/UserTransaction</property>-->
+        <!-- Uncomment these properties if you want to see database content during test execution -->
+
+<!--        <property name="dumpData">true</property>-->
+<!--        <property name="dumpDirectory">/target/dump</property>-->
+
+    </extension>
+
     <container qualifier="glassfish" >
         <configuration>
             <property name="domain">domain1</property>
