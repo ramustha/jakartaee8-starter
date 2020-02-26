@@ -1,35 +1,41 @@
 package com.example;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
+@Stateless
 public class GreetingRepository {
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<GreetingEntity> fetchAll() {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<GreetingEntity> query = criteriaBuilder.createQuery(GreetingEntity.class);
-        Root<GreetingEntity> from = query.from(GreetingEntity.class);
-        CriteriaQuery<GreetingEntity> select = query.select(from);
-
-        return em.createQuery(select).getResultList();
+    public List<GreetingEntity> findAll() {
+        return em.createNamedQuery("GreetingEntity.findAll", GreetingEntity.class).getResultList();
     }
 
-    public GreetingEntity getGreetingById(Long id) {
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<GreetingEntity> query = criteriaBuilder.createQuery(GreetingEntity.class);
+    public GreetingEntity findById(Object id) {
+        return em.find(GreetingEntity.class, id);
+    }
 
-        Root<GreetingEntity> fromGreeting = query.from(GreetingEntity.class);
-        Predicate isEqualToGivenId = criteriaBuilder.equal(fromGreeting.get(com.example.GreetingEntity_.id), id);
-        query.select(fromGreeting).where(isEqualToGivenId);
+    public GreetingEntity findById(Object id, LockModeType lockModeType) {
+        return em.find(GreetingEntity.class, id, lockModeType);
+    }
 
-        return em.createQuery(query).getSingleResult();
+    public void merge(GreetingEntity entity) {
+        em.merge(entity);
+        em.flush();
+    }
+
+    public void persist(GreetingEntity entity) {
+        em.persist(entity);
+        em.flush();
+    }
+
+    public EntityTransaction getTransaction() {
+        return em.getTransaction();
     }
 }

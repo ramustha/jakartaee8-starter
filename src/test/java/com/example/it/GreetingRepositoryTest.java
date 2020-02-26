@@ -35,14 +35,18 @@ public class GreetingRepositoryTest {
     @Test
     @UsingDataSet("greeting.yml")
     public void fetchAll() {
-        List<GreetingEntity> all = repository.fetchAll();
+        List<GreetingEntity> all = repository.findAll();
         assertThat(all, Matchers.hasSize(1));
 
         GreetingEntity greetingEntity = all.get(0);
         Assert.assertEquals("Hello JakartaEE", greetingEntity.getMessage());
+    }
 
-        greetingEntity = repository.getGreetingById(1L);
+    @Test
+    @UsingDataSet("greeting.yml")
+    public void findById() {
+        GreetingEntity greetingEntity = repository.findById(2L);
         Assert.assertEquals(1L, greetingEntity.getId().longValue());
-        Assert.assertEquals("Hello JakartaEE", greetingEntity.getMessage());
+        Assert.assertEquals("Hello JakartaEE 2", greetingEntity.getMessage());
     }
 }

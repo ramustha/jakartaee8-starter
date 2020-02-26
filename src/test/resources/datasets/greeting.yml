@@ -1,3 +1,7 @@
 GreetingEntity:
   - id: 1
     message: Hello JakartaEE
+    version: 1
+  - id: 2
+    message: Hello JakartaEE 2
+    version: 1
