@@ -122,27 +122,25 @@ public class GreetingPersistenceTest {
         CountDownLatch countDownLatch = new CountDownLatch(2);
 
         // first update
-        executor.execute(() -> {
-            GreetingEntity findGreeting = repository.findById(1L, LockModeType.OPTIMISTIC);
-            LOG.info("trying to update {} ", findGreeting);
+        GreetingEntity findGreeting = repository.findById(1L, LockModeType.OPTIMISTIC);
+        LOG.info("trying to update {} ", findGreeting);
 
-            findGreeting.setMessage("Hello World");
-            repository.merge(findGreeting);
+        findGreeting.setMessage("Hello World");
+        repository.merge(findGreeting);
 
-            countDownLatch.countDown();
-        });
+        countDownLatch.countDown();
 
         // second update
         executor.execute(() -> {
-            GreetingEntity findGreeting = repository.findById(1L, LockModeType.OPTIMISTIC);
-            LOG.info("another user trying to update {} ", findGreeting);
+            GreetingEntity ohterFindGreeting = repository.findById(1L, LockModeType.OPTIMISTIC);
+            LOG.info("another user trying to update {} ", ohterFindGreeting);
 
             // fake loading
             sleepOneSeconds();
 
             try {
-                findGreeting.setMessage("update greeting");
-                repository.merge(findGreeting);
+                ohterFindGreeting.setMessage("update greeting");
+                repository.merge(ohterFindGreeting);
             } catch (RuntimeException e) {
                 LOG.error("Row was updated or deleted by another transaction");
             }
@@ -151,6 +149,11 @@ public class GreetingPersistenceTest {
         });
 
         countDownLatch.await();
+
+        GreetingEntity find = repository.findById(1L, LockModeType.OPTIMISTIC);
+        // then
+        assertThat(find.getMessage(), equalTo("Hello World"));
+        assertThat(find.getVersion(), equalTo(2));
     }
 
     private void sleepOneSeconds() {

@@ -34,6 +34,8 @@
         <!-- Arquillian BOM -->
         <arquillian-bom.version>1.6.0.Final</arquillian-bom.version>
 
+        <version.arquillian_cube>1.18.2</version.arquillian_cube>
+
         <!-- Test Utilities -->
         <junit.version>4.12</junit.version>
         <mockito.version>3.3.0</mockito.version>
@@ -83,6 +85,13 @@
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
                 <version>${arquillian-bom.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.arquillian.cube</groupId>
+                <artifactId>arquillian-cube-bom</artifactId>
+                <version>${version.arquillian_cube}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -993,6 +1002,25 @@
                     <version>${wildfly-arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
+
+                <!-- Update for docker-java library which is causing problems in arquillian-cube 1.9.1 -->
+                <dependency>
+                    <groupId>com.github.docker-java</groupId>
+                    <artifactId>docker-java</artifactId>
+                    <version>3.1.5</version>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.arquillian.cube</groupId>
+                    <artifactId>arquillian-cube-docker</artifactId>
+                    <scope>test</scope>
+                </dependency>
+<!--                <dependency>-->
+<!--                    <groupId>org.arquillian.cube</groupId>-->
+<!--                    <artifactId>arquillian-cube-docker-starter</artifactId>-->
+<!--                    <scope>test</scope>-->
+<!--                </dependency>-->
             </dependencies>
             <build>
                 <plugins>
@@ -1000,6 +1028,8 @@
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${maven-failsafe-plugin.version}</version>
                         <configuration>
+                            <!-- port 10000 -->
+<!--                            <argLine>-Djboss.socket.binding.port-offset=1920</argLine>-->
                             <systemPropertyVariables>
                                 <arquillian.launch>wildfly-remote</arquillian.launch>
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>

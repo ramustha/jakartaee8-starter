@@ -1,0 +1,9 @@
+version: '2'
+services:
+  wildfly:
+#    env_file: src/test/resources/wildfly/envs
+    build: .
+    ports:
+      - "10000:8080"
+      - "10001:9990"
+      - "10002:8787"
