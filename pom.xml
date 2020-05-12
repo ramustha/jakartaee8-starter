@@ -1081,7 +1081,7 @@
                         <executions>
                             <execution>
                                 <id>unpack</id>
-                                <phase>pre-integration-test</phase>
+                                <phase>process-test-classes</phase>
                                 <goals>
                                     <goal>unpack</goal>
                                 </goals>
