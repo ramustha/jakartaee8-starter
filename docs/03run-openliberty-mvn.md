@@ -1,6 +1,6 @@
-# Deploying applications to OpenLiberty Server using Liberty Maven plugin
+# Deploying applications to Open Liberty Server using Liberty Maven plugin
 
-OpenLiberty provides an official maven plugin for application deployment.  
+Open Liberty provides an official maven plugin for application deployment.  
 
 ```xml
 <!-- Enable liberty-maven-plugin -->
@@ -13,7 +13,7 @@ OpenLiberty provides an official maven plugin for application deployment.
 
 `liberty:dev` provides a dev mode for developers. 
 
-`liberty:run` is easy to run the application on a local OpenLiberty server.  If the server does not exist, it will download it automatically.
+`liberty:run` is easy to run the application on a local Open Liberty server.  If the server does not exist, it will download it automatically.
 
 `liberty:deploy` will copy applications to the Liberty server's *dropins* or *apps* directory, If the server instance is running, it will also verify the applications started successfully.
 
